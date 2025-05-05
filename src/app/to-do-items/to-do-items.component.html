@@ -1,6 +1,37 @@
-<h2>{{toDoItem.name}} Details</h2>
-<div><span>id: </span>{{toDoItem.id}}</div>
-<div><span>name: </span>{{toDoItem.name}}</div>
-<div>
- <span>is complete: </span>{{toDoItem.isComplete}}
-</div>
+@if (selectedItem) {
+    <h2>{{selectedItem.name}} details</h2>
+    <div><span>id: </span>{{selectedItem.id}}</div>
+    <div>
+        <label>
+            name:
+            <input [(ngModel)]="selectedItem.name" placeholder="name"/>
+        </label>
+    </div>
+    <div>
+        <mat-slide-toggle
+            [checked]="selectedItem.isComplete"
+            (change)="update($event.checked)"
+        >is comlete!</mat-slide-toggle>
+        <label>
+            is comlete:
+            <input type="checkbox" [(ngModel)]="selectedItem.isComplete"/>
+            
+        </label>
+    </div>
+}
+
+
+<ul class="items">
+    @for (item of items; track item;) {    
+        <li (click)="onSelect(item)"
+        [class.selected]="item === selectedItem">
+             {{item.id}} :{{item.name}}
+        </li>
+        }
+</ul>
+
+@if (items.length > 0) {
+    <div class="todo-count">
+        {{items.length}} {{items.length == 1 ? 'item' : 'items'}}
+    </div>
+}
